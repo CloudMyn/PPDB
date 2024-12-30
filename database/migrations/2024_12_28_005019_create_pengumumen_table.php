@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->json('custom_fields')->nullable();
+        Schema::create('pengumumen', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('calon_siswa_id');
+            $table->string('jalur_pendaftaran');
+            $table->enum('status', ['LULUS', 'GAGAL']);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('custom_fields');
-        });
+        Schema::dropIfExists('pengumumen');
     }
 };

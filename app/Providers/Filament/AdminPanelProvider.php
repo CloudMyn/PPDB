@@ -2,8 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Admin\Themes\SknorTheme;
+use App\Filament\Auth\CustomLogin;
 use App\Filament\Widgets\AccountWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -14,8 +14,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
-use GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -38,7 +36,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandLogo('/logo.png')
-            ->login(\App\Filament\Auth\CustomLogin::class)
+            ->login(CustomLogin::class)
+            ->darkMode(false)
             ->passwordReset()
             ->registration()
             ->colors([
@@ -91,43 +90,11 @@ class AdminPanelProvider extends PanelProvider
                         directory: 'avatars', // image will be stored in 'storage/app/public/avatars
                         rules: 'mimes:jpeg,png|max:' . 1024 * 3 //only accept jpeg and png files with a maximum size of 3MB
                     ),
-
-                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
-
-                \Hasnayeen\Themes\ThemesPlugin::make()
-                    ->canViewThemesPage(fn() => true)
-                    ->registerTheme(
-                        [
-                            // SknorTheme::class,
-                            \Hasnayeen\Themes\Themes\Nord::class,
-                            // \Hasnayeen\Themes\Themes\Sunset::class,
-                        ],
-                        override: true,
-                    ),
-
-                FilamentSpatieRolesPermissionsPlugin::make(),
-
-                EnvironmentIndicatorPlugin::make()
-                    ->showBadge(true)
-                    ->showBorder(false)
-                    ->showGitBranch(),
-
-                FilamentEnvEditorPlugin::make()
-                    ->navigationGroup(fn () => __('app.settings'))
-                    ->navigationLabel(fn () => __('app.env_editor'))
-                    ->navigationIcon('heroicon-o-cog-8-tooth')
-                    ->navigationSort(1)
-                    ->slug('env-editor')
             ])
             ->spa(config('dashboard.panel.single_page_aplication'))
             ->databaseNotifications()
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->navigationGroups([
-                __('app.navigation.user_management'),
-                __('filament-spatie-roles-permissions::filament-spatie.section.roles_and_permissions'),
-                __('app.settings'),
             ])
             ->favicon('/favicon.png')
             ->topNavigation(config('dashboard.panel.top_navigation'));;

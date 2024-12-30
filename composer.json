@@ -7,9 +7,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "althinect/filament-spatie-roles-permissions": "^2.2",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-language-switch": "^3.1",
+        "dotswan/filament-map-picker": "^1.6",
         "filament/filament": "^3.2",
         "geo-sot/filament-env-editor": "^0.0.5",
         "hasnayeen/themes": "^3.0",

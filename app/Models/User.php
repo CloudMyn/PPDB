@@ -4,19 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasSuperAdmin;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -81,5 +79,10 @@ class User extends Authenticatable implements HasAvatar
     public function isActive()
     {
         return $this->status === 'ACTIVE';
+    }
+
+    public function calonSiswa()
+    {
+        return $this->hasOne(CalonSiswa::class);
     }
 }

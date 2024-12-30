@@ -22,13 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         FilamentAsset::register([
-            Css::make('sknor-theme', asset('build/sknor-theme.css')), // sknor theme
+            Css::make('custom-style', asset('css/styles.css')), // sknor theme
         ]);
 
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-                ->locales(['id', 'en']); // also accepts a closure
-        });
+        // LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+        //     $switch
+        //         ->locales(['id', 'en']); // also accepts a closure
+        // });
     }
 }

@@ -1,0 +1,98 @@
+#login-container {
+    position: relative;
+    display: flex;
+    height: auto !important;
+    width: 600px !important;
+    background-color: #fff;
+    padding: 40px 40px;
+    border-radius: 4px;
+    box-shadow: #00000063 0px 0px 10px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.fi-simple-layout:after {
+    content: "" !important;
+}
+
+#login-form {
+    flex: 5;
+    position: relative;
+    border-radius: 0px !important;
+    z-index: 2;
+}
+
+#logo-login {
+    display: none;
+    flex: 3;
+    margin-left: 15px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#logo-login img {
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    #logo-login {
+        display: block;
+    }
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-primary {
+    background-color: #cce5ff;
+    border-color: #b8daff;
+    color: #004085;
+}
+
+.alert-secondary {
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+    color: #383d41;
+}
+
+.alert-light {
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+    color: #818182;
+}
+
+.alert-dark {
+    background-color: #d6d8d9;
+    border-color: #c6c8ca;
+    color: #1b1e21;
+}
