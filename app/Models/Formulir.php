@@ -30,6 +30,8 @@ class Formulir extends Model
         'alamat_ortu',
         'status_pendaftaran',
         'jalur_pendaftaran',
+        'alasan_penolakan',
+        'score',
     ];
 
     public function calonSiswa()
@@ -40,7 +42,7 @@ class Formulir extends Model
     public static function daftar($data)
     {
         $data['calon_siswa_id']     =   get_auth_user()->calonSiswa->id;
-        $data['nomor_formulir']     =   rand(1000000, 9999999);
+        $data['nomor_formulir']     =   "SMP/TWT/" . date('Y') . "/" . rand(1000000, 9999999);
         $data['status_pendaftaran'] =   'belum_verifikasi';
         $data['nomor_telepon']      =   get_auth_user()->calonSiswa->telepon;
 

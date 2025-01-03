@@ -9,4 +9,9 @@ class Pengumuman extends Model
 {
     /** @use HasFactory<\Database\Factories\PengumumanFactory> */
     use HasFactory;
+
+    public function calonSiswa()
+    {
+        return $this->belongsTo(CalonSiswa::class);
+    }
 }

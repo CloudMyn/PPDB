@@ -23,6 +23,10 @@ class DataJalurPrestasi extends Model
         'jarak',
     ];
 
+    protected $casts = [
+        'nila_raport' => 'array',
+    ];
+
     public function formulir()
     {
         return $this->belongsTo(Formulir::class);

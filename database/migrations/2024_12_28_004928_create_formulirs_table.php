@@ -31,9 +31,11 @@ return new class extends Migration
             $table->string('pekerjaan_ibu');
             $table->string('nomor_telepon_ibu');
             $table->string('alamat_ortu');
+            $table->integer('score')->default(0);
             $table->enum('jalur_pendaftaran', ['afirmasi', 'prestasi', 'pindah_tugas', 'zonasi']);
             $table->enum('status_pendaftaran', ['belum_verifikasi', 'berhasil_verifikasi', 'gagal_verifikasi'])
                 ->default('belum_verifikasi');
+            $table->text('alasan_penolakan')->nullable();
             $table->timestamps();
         });
     }

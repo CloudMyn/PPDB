@@ -30,9 +30,12 @@ class HalamanPengisianDataSiswa extends Page
             $this->form->fill($dataSiswa->toArray());
             $this->isEmpty = false;
         } else {
-            $this->form->fill(
-                CalonSiswa::factory()->make()->toArray()
-            );
+
+            if (config('app.env') == 'local') {
+                $this->form->fill(
+                    CalonSiswa::factory()->make()->toArray()
+                );
+            }
         }
     }
 
@@ -121,6 +124,8 @@ class HalamanPengisianDataSiswa extends Page
                 ->title('Data Berhasil Disimpan')
                 ->send();
 
+            // Redirect ke halaman formulir
+            $this->redirect(route('filament.siswa.pages.halaman-registrasi-formulir'));
         } catch (\Throwable $th) {
 
             Notification::make()

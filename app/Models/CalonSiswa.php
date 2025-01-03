@@ -32,6 +32,11 @@ class CalonSiswa extends Model
         return $this->hasOne(Formulir::class);
     }
 
+    public function pengumuman()
+    {
+        return $this->hasOne(Pengumuman::class);
+    }
+
     public static function daftar($data)
     {
         $model = new self($data);

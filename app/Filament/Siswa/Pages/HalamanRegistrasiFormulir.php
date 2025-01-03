@@ -8,10 +8,13 @@ use App\Models\DataJalurPindahTugas;
 use App\Models\DataJalurPrestasi;
 use App\Models\DataJalurZonasi;
 use App\Models\Formulir;
+use App\Models\Pengumuman;
+use App\Models\User;
 use Dotswan\MapPicker\Fields\Map;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -21,11 +24,15 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
 
+use function Filament\Support\format_money;
+
 class HalamanRegistrasiFormulir extends Page implements HasForms
 {
     use InteractsWithForms;
 
     public ?array $data = []; // Variabel untuk menyimpan data form
+
+    public string $alasan_penolakan = "";
 
     protected static string $view = 'filament.siswa.pages.halaman-registrasi-formulir';
 
@@ -35,14 +42,56 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
 
     public static function canAccess(): bool
     {
-        return get_auth_user()->calonSiswa instanceof CalonSiswa && get_auth_user()->calonSiswa->formulir == null;
+        $user   =   get_auth_user();
+        $calonSiswa =   $user->calonSiswa;
+
+        if ($calonSiswa instanceof CalonSiswa) {
+
+            if ($calonSiswa->formulir instanceof Formulir) {
+
+                if ($calonSiswa->formulir->status_pendaftaran == 'gagal_verifikasi') {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function mount()
     {
-        $this->form->fill(
-            Formulir::factory()->make()->toArray()
-        );
+        $calonSiswa = get_auth_user()->calonSiswa;
+
+
+        if (config('app.env') == 'local') {
+
+            $this->form->fill(
+                Formulir::factory()->make()->toArray()
+            );
+        }
+
+        if ($calonSiswa instanceof CalonSiswa) {
+            if ($calonSiswa->formulir instanceof Formulir) {
+
+                $data   =   $calonSiswa->formulir->toArray();
+
+                if ($calonSiswa->formulir->jalur_pendaftaran == 'afirmasi') {
+                    $data['jalur_data'] =   $calonSiswa->formulir->jalurAfirmasi->toArray();
+                } else if ($calonSiswa->formulir->jalur_pendaftaran == 'prestasi') {
+                    $data['jalur_data'] =   $calonSiswa->formulir->jalurPrestasi->toArray();
+                } else if ($calonSiswa->formulir->jalur_pendaftaran == 'pindah_tugas') {
+                    $data['jalur_data'] =   $calonSiswa->formulir->jalurPindahTugas->toArray();
+                } else if ($calonSiswa->formulir->jalur_pendaftaran == 'zonasi') {
+                    $data['jalur_data'] =   $calonSiswa->formulir->jalurZonasi->toArray();
+                }
+
+                $this->form->fill($data);
+
+                $this->alasan_penolakan = $calonSiswa->formulir->alasan_penolakan;
+            }
+        }
     }
 
     protected function getFormActions(): array
@@ -170,10 +219,26 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
     public function simpan(): void
     {
         try {
+
+            if (Pengumuman::count() > 0) {
+                Notification::make()
+                    ->danger()
+                    ->title('Pendaftaran ditutup!')
+                    ->body('Mohon maaf pendaftaran PPDB sudah ditutup')
+                    ->send();
+
+                return;
+            }
+
             $data = $this->form->getState(); // Ambil data dari form
 
-            $jalur_data = $data['jalur_data'];
+            $model = Formulir::find($data['id']);
 
+            if ($model instanceof Formulir) {
+                $model->delete();
+            }
+
+            $jalur_data = $data['jalur_data'];
 
             $jenis_jalur    =   match ($data['jalur_pendaftaran']) {
                 'afirmasi' => new DataJalurAfirmasi(),
@@ -184,11 +249,31 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
 
             DB::beginTransaction();
 
+            if (
+                $jenis_jalur instanceof DataJalurZonasi ||
+                $jenis_jalur instanceof DataJalurPindahTugas ||
+                $jenis_jalur instanceof DataJalurAfirmasi
+            ) {
+                $data['score']  =   $jalur_data['jarak'];
+            } else if ($jenis_jalur instanceof DataJalurPrestasi) {
+
+                $total_nilai    =   0;
+
+                foreach ($jalur_data['nila_raport'] as $value) {
+                    $total_nilai    +=   $value['nilai'];
+                }
+
+                $jalur_data['total_nilai']    =   $total_nilai;
+
+                $data['score']  =   $total_nilai;
+            }
+
             $formulir = Formulir::daftar($data);
 
             $jalur_data['formulir_id'] = $formulir->id;
 
             // throw new \Exception(json_encode($jalur_data));
+
 
             $jenis_jalur->create($jalur_data);
 
@@ -202,7 +287,17 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                 ->body('Formulir berhasil disimpan')
                 ->send();
 
+            Notification::make()
+                ->success()
+                ->color('success')
+                ->title('Berhasil!')
+                ->body('Terdapat formulir baru')
+                ->sendToDatabase(User::where('role', 'ADMIN')->get());
+
             DB::commit();
+
+            // Redirect ke halaman formulir
+            $this->redirect(route('filament.siswa.pages.halaman-formulir-siswa'));
         } catch (\Throwable $th) {
 
             DB::rollBack();
@@ -219,6 +314,9 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
     public function jalur()
     {
         return [
+
+            Hidden::make('id'),
+
             Fieldset::make('Dokumen Pendukung')
                 ->visible(function ($get): bool {
                     return $get('jalur_pendaftaran') === 'afirmasi';
@@ -236,7 +334,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->maxSize(1024 * 5)
                         ->directory(fn(): string => 'public/formulir/afirmasi'),
 
-                    Forms\Components\FileUpload::make('jalur_data.jalur_data.file_ijaza')
+                    Forms\Components\FileUpload::make('jalur_data.file_ijaza')
                         ->label('Ijaza')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
@@ -341,9 +439,6 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                                 ->numeric()
                                 ->required(),
                         ]),
-
-                    Forms\Components\Hidden::make('jalur_data.total_nilai')
-                        ->required(),
                 ]),
 
             Forms\Components\Fieldset::make('Data Jalur Pindah Tugas')

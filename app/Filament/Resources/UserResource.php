@@ -54,15 +54,28 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                Forms\Components\Select::make('role')
+                    ->label('Peran')
+                    ->options([
+                        'siswa' => 'Siswa',
+                        'guru' => 'Guru',
+                        'admin' => 'Admin',
+                    ])
+                    ->required(),
+
+
                 Forms\Components\TextInput::make('password')
                     ->label('Kata Sandi')
                     ->password()
                     ->required()
+                    ->confirmed()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('status')
-                    ->label('Status')
-                    ->required(),
+
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->label('Konfirmasi Kata Sandi')
+                    ->password()
+                    ->maxLength(255),
             ]);
     }
 

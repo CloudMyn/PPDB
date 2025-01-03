@@ -17,7 +17,24 @@ class CalonSiswaResource extends Resource
 {
     protected static ?string $model = CalonSiswa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+    protected static ?int $navigationSort = 3;
+
+    public static function getModelLabel(): string
+    {
+        return 'Data Calon Siswa';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return null;
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -41,9 +58,11 @@ class CalonSiswaResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
+                    ->label("Akun Siswa")
                     ->required()
-                    ->numeric(),
+                    ->columnSpanFull()
+                    ->relationship('user', 'name'),
             ]);
     }
 
@@ -60,13 +79,8 @@ class CalonSiswaResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('alamat')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('telepon')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -81,6 +95,7 @@ class CalonSiswaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

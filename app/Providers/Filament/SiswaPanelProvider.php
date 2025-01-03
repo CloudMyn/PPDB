@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\CustomLogin;
+use App\Filament\Auth\RegistrationPage;
 use App\Filament\Resources\FormulirResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -14,6 +15,7 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use App\Filament\Widgets\AccountWidget;
+use App\Filament\Widgets\WelcomeSiswa;
 use Filament\Navigation\MenuItem;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -32,11 +34,11 @@ class SiswaPanelProvider extends PanelProvider
     {
         return $panel
             ->id('siswa')
-            ->path('siswa')
+            ->path('/')
             ->login(CustomLogin::class)
             ->darkMode(false)
             ->passwordReset()
-            ->registration()
+            ->registration(RegistrationPage::class)
             ->colors([
                 'primary' => Color::Teal,
             ])
@@ -48,7 +50,8 @@ class SiswaPanelProvider extends PanelProvider
             ->topNavigation(true)
             ->discoverWidgets(in: app_path('Filament/Siswa/Widgets'), for: 'App\\Filament\\Siswa\\Widgets')
             ->widgets([
-                AccountWidget::class
+                WelcomeSiswa::class,
+                AccountWidget::class,
             ])
 
             ->userMenuItems([
@@ -85,7 +88,6 @@ class SiswaPanelProvider extends PanelProvider
 
             ])
             ->spa()
-            ->databaseTransactions()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
