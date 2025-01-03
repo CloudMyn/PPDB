@@ -38,7 +38,6 @@ class AdminPanelProvider extends PanelProvider
             ->login(CustomLogin::class)
             ->darkMode(false)
             ->passwordReset()
-            ->registration()
             ->colors([
                 'primary' => Color::Orange,
             ])
