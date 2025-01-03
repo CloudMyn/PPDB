@@ -4,14 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 
-class User extends Authenticatable implements HasAvatar
+class User extends Authenticatable implements HasAvatar, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -52,6 +54,20 @@ class User extends Authenticatable implements HasAvatar
         static::addGlobalScope('active', function (Builder $builder) {
             $builder->where('status', '!=', 'BLOCKED');
         });
+    }
+
+
+    /**
+     * Determine if the user can access a specific panel based on their role.
+     *
+     * @param Panel $panel The panel to check access for.
+     * @return bool True if the user has access to the panel, false otherwise.
+     */
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        dd($this->role);
+        return $this->role === 'SISWA' && $panel->getId() == 'siswa' || $this->role === 'ADMIN' && $panel->getId() == 'admin' || $this->role === 'KEPSEK' && $panel->getId() == 'kepsek';
     }
 
     /**

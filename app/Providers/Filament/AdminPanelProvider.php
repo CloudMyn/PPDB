@@ -35,7 +35,6 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandLogo('/logo.png')
             ->login(CustomLogin::class)
             ->darkMode(false)
             ->passwordReset()

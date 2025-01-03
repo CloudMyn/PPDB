@@ -265,6 +265,7 @@ class FormulirResource extends Resource
     {
         return [
             'index' => Pages\ListFormulirs::route('/'),
+            'view'  =>  Pages\ViewFormulir::route('/view/{record}'),
             'create' => Pages\CreateFormulir::route('/create'),
             'edit' => Pages\EditFormulir::route('/{record}/edit'),
         ];
