@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandLogo('/smp.png')
             ->login(CustomLogin::class)
             ->darkMode(false)
             ->passwordReset()
@@ -89,7 +90,7 @@ class AdminPanelProvider extends PanelProvider
                         rules: 'mimes:jpeg,png|max:' . 1024 * 3 //only accept jpeg and png files with a maximum size of 3MB
                     ),
             ])
-            ->databaseNotifications(false)
+            ->databaseNotifications(true)
             ->spa(config('dashboard.panel.single_page_aplication'))
             ->authMiddleware([
                 Authenticate::class,

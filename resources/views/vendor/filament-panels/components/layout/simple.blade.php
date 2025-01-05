@@ -28,9 +28,9 @@
                 <main id="login-form">
                     {{ $slot }}
                 </main>
-                {{-- <div id="logo-login">
-                    <img src="/lab.jpg" alt="">
-                </div> --}}
+                <div id="logo-login">
+                    <img src="/smp.png" alt="">
+                </div>
             </div>
 
         </div>

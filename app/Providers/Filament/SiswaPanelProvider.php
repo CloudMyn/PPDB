@@ -36,8 +36,10 @@ class SiswaPanelProvider extends PanelProvider
             ->id('siswa')
             ->path('/')
             ->login(CustomLogin::class)
+            ->brandLogo('/smp.png')
             ->darkMode(false)
             ->passwordReset()
+            ->databaseNotifications()
             ->registration(RegistrationPage::class)
             ->colors([
                 'primary' => Color::Teal,

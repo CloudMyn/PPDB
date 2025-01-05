@@ -6,6 +6,8 @@ use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,5 +37,12 @@ class AppServiceProvider extends ServiceProvider
         //     $switch
         //         ->locales(['id', 'en']); // also accepts a closure
         // });
+
+
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::TOPBAR_START,
+            fn (): string => "<h1 style='font-size: 23px; font-weight: bold'>" . config('app.name') . "</h1>",
+        );
     }
 }

@@ -292,7 +292,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                 ->color('success')
                 ->title('Berhasil!')
                 ->body('Terdapat formulir baru')
-                ->sendToDatabase(User::where('role', 'ADMIN')->get());
+                ->sendToDatabase(User::where('role', '=', 'ADMIN')->get());
 
             DB::commit();
 
