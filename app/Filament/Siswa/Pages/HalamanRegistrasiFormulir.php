@@ -109,7 +109,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
         return $form
             ->schema([
                 Wizard::make([
-                    Wizard\Step::make('Biodata')
+                    Wizard\Step::make('Biodata Siswa')
                         ->columns(2)
                         ->schema([
                             Forms\Components\FileUpload::make('foto')
@@ -421,10 +421,37 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->directory('public/formulir/prestasi')
                         ->nullable(),
 
+                    Forms\Components\Repeater::make('jalur_data.sertifikat')
+                        ->label('Sertifikat')
+                        ->columnSpanFull()
+                        ->columns(2)
+                        ->schema([
+
+                            Forms\Components\FileUpload::make('foto_sertifikat')
+                                ->label('Foto Sertifikat')
+                                ->columnSpanFull()
+                                ->image()
+                                ->required(),
+
+                            Forms\Components\TextInput::make('name')
+                                ->label('Nama Sertifikat')
+                                ->required(),
+
+                            Forms\Components\Select::make('juara')
+                                ->label('Juara')
+                                ->options([
+                                    '1' => 'Juara 1',
+                                    '2' => 'Juara 2',
+                                    '3' => 'Juara 3',
+                                ])
+                                ->required(),
+                        ]),
+
                     Forms\Components\Repeater::make('jalur_data.nila_raport')
                         ->label('Nilai Raport')
                         ->columnSpanFull()
                         ->columns(3)
+                        ->minItems(3)
                         ->schema([
                             Forms\Components\TextInput::make('semester')
                                 ->label('Semester')

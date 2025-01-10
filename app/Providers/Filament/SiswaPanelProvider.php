@@ -34,7 +34,7 @@ class SiswaPanelProvider extends PanelProvider
     {
         return $panel
             ->id('siswa')
-            ->path('/')
+            ->path('siswa/')
             ->login(CustomLogin::class)
             ->brandLogo('/smp.png')
             ->darkMode(false)

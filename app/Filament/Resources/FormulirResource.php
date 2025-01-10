@@ -392,6 +392,33 @@ class FormulirResource extends Resource
                         ->directory('public/formulir/prestasi')
                         ->nullable(),
 
+
+                    Forms\Components\Repeater::make('sertifikat')
+                        ->label('Sertifikat')
+                        ->columnSpanFull()
+                        ->columns(2)
+                        ->schema([
+
+                            Forms\Components\FileUpload::make('foto_sertifikat')
+                                ->label('Foto Sertifikat')
+                                ->columnSpanFull()
+                                ->image()
+                                ->required(),
+
+                            Forms\Components\TextInput::make('name')
+                                ->label('Nama Sertifikat')
+                                ->required(),
+
+                            Forms\Components\Select::make('juara')
+                                ->label('Juara')
+                                ->options([
+                                    '1' => 'Juara 1',
+                                    '2' => 'Juara 2',
+                                    '3' => 'Juara 3',
+                                ])
+                                ->required(),
+                        ]),
+
                     Forms\Components\Repeater::make('nila_raport')
                         ->label('Nilai Raport')
                         ->columnSpanFull()

@@ -27,6 +27,7 @@ return new class extends Migration
                 ->nullable()
                 ->comment('Raport nilai');
             $table->json('nila_raport');
+            $table->json('sertifikat');
             $table->double('total_nilai');
             $table->timestamps();
         });

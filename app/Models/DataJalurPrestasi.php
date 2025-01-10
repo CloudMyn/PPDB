@@ -16,15 +16,17 @@ class DataJalurPrestasi extends Model
         'file_akta_kelahiran',
         'file_ijaza',
         'file_raport',
-        'nila_raport',
         'total_nilai',
         'koordinat_bujur',
         'koordinat_lintang',
         'jarak',
+        'sertifikat',
+        'nila_raport',
     ];
 
     protected $casts = [
-        'nila_raport' => 'array',
+        'nila_raport'   => 'array',
+        'sertifikat'    => 'array',
     ];
 
     public function formulir()
