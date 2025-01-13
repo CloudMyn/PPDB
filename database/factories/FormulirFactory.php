@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CalonSiswa;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class FormulirFactory extends Factory
     public function definition(): array
     {
         return [
-            'calon_siswa_id' => rand(1, 5),
+            'foto'  => $this->faker->imageUrl(),
+            'calon_siswa_id' => CalonSiswa::factory()->create()->id,
             'nomor_formulir' => $this->faker->unique()->regexify('[A-Z]{3}[0-9]{3}'),
             'nama_lengkap' => $this->faker->name(),
             'tempat_lahir' => $this->faker->city(),
@@ -34,7 +36,7 @@ class FormulirFactory extends Factory
             'pekerjaan_ibu' => $this->faker->jobTitle(),
             'nomor_telepon_ibu' => $this->faker->phoneNumber(),
             'alamat_ortu' => $this->faker->address(),
-            'status_pendaftaran' => $this->faker->randomElement(['belum', 'sudah', 'gagal']),
+            'status_pendaftaran' => $this->faker->randomElement(['belum_verifikasi', 'berhasil_verifikasi', 'gagal_verifikasi']),
             'jalur_pendaftaran' => $this->faker->randomElement(['afirmasi', 'prestasi', 'pindah_tugas', 'zonasi']),
         ];
     }

@@ -82,10 +82,21 @@
                             Daftarkan diri Anda sekarang melalui PPDB Online.</p>
 
                         @if (auth()->check())
-                            <a href="/siswa" class="main-button-slider">Dashboard</a>
+                            @if (auth()->user()->role == 'SISWA')
+                                <a href="/siswa" class="main-button-slider">Dashboard Siswa</a>
+                            @endif
+
+                            @if (auth()->user()->role == 'ADMIN')
+                                <a href="/admin" class="main-button-slider">Dashboard Admin</a>
+                            @endif
+
+                            @if (auth()->user()->role == 'KEPSEK')
+                                <a href="/kepsek" class="main-button-slider">Dashboard Kepala Sekolah</a>
+                            @endif
                         @else
-                            <a href="/siswa/login" class="main-button-slider">Daftar Sekarang</a>
+                            <a href="/siswa/login" class="main-button-slider">Mulai Sekarang</a>
                         @endif
+
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                         data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">

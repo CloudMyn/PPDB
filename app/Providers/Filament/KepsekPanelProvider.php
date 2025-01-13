@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomLogin;
+use App\Filament\Kepsek\Resources\PengumumanResource\Widgets\PengumumanOverview;
+use App\Filament\Widgets\AccountWidget;
+use App\Filament\Widgets\WelcomeSiswa;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 
 class KepsekPanelProvider extends PanelProvider
 {
@@ -26,8 +31,10 @@ class KepsekPanelProvider extends PanelProvider
             ->id('kepsek')
             ->path('kepsek')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Sky,
             ])
+            ->darkMode(false)
+            ->login(CustomLogin::class)
             ->discoverResources(in: app_path('Filament/Kepsek/Resources'), for: 'App\\Filament\\Kepsek\\Resources')
             ->discoverPages(in: app_path('Filament/Kepsek/Pages'), for: 'App\\Filament\\Kepsek\\Pages')
             ->pages([
@@ -35,8 +42,11 @@ class KepsekPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Kepsek/Widgets'), for: 'App\\Filament\\Kepsek\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                AccountWidget::class,
+                WelcomeSiswa::class,
+                PengumumanOverview::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -48,6 +58,9 @@ class KepsekPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->plugins([
+                FilamentBackgroundsPlugin::make(),
             ])
             ->authMiddleware([
                 Authenticate::class,

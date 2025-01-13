@@ -17,7 +17,9 @@ class PengumumanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'calon_siswa_id' => \App\Models\CalonSiswa::inRandomOrder()->first()->id,
+            'jalur_pendaftaran' => $this->faker->randomElement(['afirmasi', 'prestasi', 'pindah_tugas', 'zonasi']),
+            'status' => $this->faker->randomElement(['LULUS', 'GAGAL']),
         ];
     }
 }
