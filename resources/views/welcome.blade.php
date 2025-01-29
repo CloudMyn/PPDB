@@ -125,6 +125,10 @@
                         <p>SMP Negeri 2 Towuti adalah sekolah menengah pertama yang terletak di Kabupaten Luwu Timur,
                             Sulawesi Selatan. Kami memiliki fasilitas yang lengkap dan tenaga pengajar yang berkualitas
                             untuk mendukung proses belajar mengajar.</p>
+                        <p>
+                            SMP Negeri 2 Towuti merupakan sekolah negeri yang terletak di Jl. Pendidikan Bantilang,
+                            Kecamatan Towuti, Kabupaten Luwu Timur, Sulawesi Selatan.
+                        </p>
                         {{-- <a href="#about2" class="main-button">Selengkapnya</a> --}}
                     </div>
                 </div>
