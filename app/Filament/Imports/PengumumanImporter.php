@@ -23,7 +23,7 @@ class PengumumanImporter extends Importer
                 ->rules(['required', 'max:255']),
             ImportColumn::make('status')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required', 'in_array:LULUS,GAGAL']),
         ];
     }
 

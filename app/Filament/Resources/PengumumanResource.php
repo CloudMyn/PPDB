@@ -71,6 +71,9 @@ class PengumumanResource extends Resource
                 Tables\Columns\TextColumn::make('calonSiswa.nisn')
                     ->label('NISN')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('calonSiswa.nama_lengkap')
+                    ->label('Nama Lengkap')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('jalur_pendaftaran')
                     ->label('Jalur Pendaftaran')
                     ->searchable(),
