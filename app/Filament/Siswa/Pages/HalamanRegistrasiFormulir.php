@@ -335,7 +335,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->directory(fn(): string => 'public/formulir/afirmasi'),
 
                     Forms\Components\FileUpload::make('jalur_data.file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->directory(fn(): string => 'public/formulir/afirmasi'),
@@ -377,7 +377,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('jalur_data.file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->columnSpanFull()
@@ -408,7 +408,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('jalur_data.file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->directory('public/formulir/prestasi')
@@ -502,7 +502,7 @@ class HalamanRegistrasiFormulir extends Page implements HasForms
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('jalur_data.file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->columnSpanFull()

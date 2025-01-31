@@ -204,6 +204,12 @@ class FormulirResource extends Resource
                             ->title('Formuli berhasil diverifikasi')
                             ->success()
                             ->send();
+
+                        Notification::make()
+                            ->title('Verifikasi Berhasil')
+                            ->body('Formulir anda telah lulus verifikasi oleh admin')
+                            ->success()
+                            ->sendToDatabase($record->calonSiswa->user);
                     })
                     ->icon('heroicon-o-check-circle'),
 
@@ -243,6 +249,12 @@ class FormulirResource extends Resource
                             ->title('Formuli berhasil diverifikasi')
                             ->success()
                             ->send();
+
+                        Notification::make()
+                            ->title('Verifikasi Gagal')
+                            ->body('Formulir anda tidak lulus verifikasi dengan alasan: ' . $data['reject_reason'])
+                            ->danger()
+                            ->sendToDatabase($record->calonSiswa->user);
                     })
                     ->color('danger')
                     ->icon('heroicon-o-x-mark'),
@@ -296,7 +308,7 @@ class FormulirResource extends Resource
                         ->directory(fn(): string => 'public/formulir/afirmasi'),
 
                     Forms\Components\FileUpload::make('file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->openable()
@@ -343,7 +355,7 @@ class FormulirResource extends Resource
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->openable()
@@ -377,7 +389,7 @@ class FormulirResource extends Resource
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->openable()
@@ -480,7 +492,7 @@ class FormulirResource extends Resource
                         ->nullable(),
 
                     Forms\Components\FileUpload::make('file_ijaza')
-                        ->label('Ijaza')
+                        ->label('Ijazah')
                         ->acceptedFileTypes(['application/pdf', 'application/doc', 'application/docx'])
                         ->maxSize(1024 * 5)
                         ->openable()
