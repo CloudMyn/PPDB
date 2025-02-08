@@ -24,7 +24,7 @@ class PengumumanImporter extends Importer
             ImportColumn::make('status')
                 ->label('Status Pengumuman')
                 ->requiredMapping()
-                ->rules(['required', 'in_array:LULUS,GAGAL']),
+                ->rules(['required']),
         ];
     }
 
